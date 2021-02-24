@@ -9,7 +9,6 @@ const {spawn, fork, exec} = require('child_process');
 var numbers = [];
 var opetations = [];
 var message;
-//console.log('Процесс запущен на с ID: ' + process.pid);
 function sort (primer) {
   for (var i = 0; i < primer.length; i++) {
     if (!isNaN(primer[i]) && (i%2) ==0 ) {
@@ -25,7 +24,6 @@ function sort (primer) {
   return numbers, opetations
 }
 
-
 const operator = function (operator, a, b) {
   if (operator == 'add') {
     return add(a, b)
@@ -37,20 +35,15 @@ const operator = function (operator, a, b) {
     return div(a, b)
   }
 }
+
 function calc (numbers, opetations) {
   var result=numbers[0];
   for (var i = 0; i < opetations.length; i++) {
     var result = operator (opetations[i], result, numbers[i+1])
   }
   console.log(result);
-  return result;
-  
+  return result;  
 }
-/*sort();
-console.log(numbers);
-console.log(opetations);
-calc(numbers, opetations);*/
-
 
 function writeResult(result){
   return new Promise ((resolve, reject) => {
@@ -65,7 +58,6 @@ function writeError(errortext){
   });
   })
 }
-//write(calc(numbers, opetations));
 
 try {
   sort(primer);
@@ -76,9 +68,6 @@ catch(error) {
     writeError(error);
 }
 
-//calc (numbers, opetations);
-
-
 writeResult(calc (numbers, opetations))
 .then ((result) => {
     console.log('Результат '+ result + ' успешно записан в файл');
@@ -86,22 +75,3 @@ writeResult(calc (numbers, opetations))
 .catch((error) => {
     writeError(error)
 })
-
-/*var workerProcess = exec('node . calc', 'numbers, opetations', function 
-      (error, stdout, stderr) {
-      
-      if (error) {
-        writeError(error)
-      }
-      console.log('Процесс запущен на с ID: ' + process.pid);
-   });
- 
-  workerProcess.on('exit', function (result) {
-      writeResult(result)
-      .then ((result) => {
-          console.log('Результат '+ result + ' успешно записан в файл');
-        })
-      .catch((error) => {
-          writeError(error)
-      })
-  });*/
